@@ -9,7 +9,7 @@
 import SpriteKit
 
 
-class GameScene: SKScene {
+class GameScene: SKScene , SKPhysicsContactDelegate   {
     
     
     
@@ -17,11 +17,17 @@ class GameScene: SKScene {
         var bird = SKSpriteNode()
         var bg = SKSpriteNode()
         var animationNode = SKSpriteNode ()
+        var scoreLabel = SKLabelNode()
+        var score = 0
+     //Create a scence
+        var PlayScene = SKScene()
+        var playButton = SKNode()
     
-    
-        let scoreCategory: UInt32 = 1 << 3
-        let pipeCategory: UInt32 = 1 << 2
-    
+     // Zones for score and dropping off screen
+        //let scoreCategory: UInt32 = 1 << 3
+        let worldCategory: UInt32 = 1 << 1
+        let gapCategory: UInt32 = 1 << 2
+        let birdCategory : UInt32 = 1 << 0
     
         var sound = SKAction.playSoundFileNamed("bensound-cute.mp3", waitForCompletion: false)
   
@@ -29,6 +35,8 @@ class GameScene: SKScene {
             
             playSound(sound)
             //call playSound method when you want
+            self.physicsWorld.contactDelegate = self
+          
         }
     
         func playSound(sound : SKAction)
@@ -55,6 +63,11 @@ class GameScene: SKScene {
             bird.physicsBody = SKPhysicsBody(circleOfRadius: bird.size.height / 2)
             bird.physicsBody?.dynamic = true
             bird.physicsBody?.allowsRotation = false
+            bird.physicsBody?.categoryBitMask = birdCategory
+            //when bird hit the ground or hit the pipe 
+            bird.physicsBody?.collisionBitMask = worldCategory //| gapCategory
+            bird.physicsBody?.contactTestBitMask = worldCategory //| gapCategory
+            
             bird.zPosition = 10
             self.addChild(bird)
             
@@ -64,12 +77,13 @@ class GameScene: SKScene {
             ground.position = CGPointMake(0, 0)
             ground.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(self.frame.size.width * 2, 150))
             ground.physicsBody?.dynamic = false
+            ground.physicsBody?.categoryBitMask = worldCategory
             
             self.addChild(ground)
           
             //Intilaize label and create a lable which holds the score
   
-            var scoreLabel = SKLabelNode()
+            scoreLabel = SKLabelNode()
             scoreLabel.fontName = "04b_19"
             scoreLabel.fontSize = 100
             scoreLabel.fontColor = UIColor(red: 1, green: 165/255, blue: 0, alpha: 1)
@@ -93,7 +107,7 @@ class GameScene: SKScene {
             
                 //looping the background image again and again
             bg.position = CGPointMake(bg.size.width / 2.0 + i * backgroundImage.size().width, CGRectGetMidX(self.frame))
-            
+        
             bg.setScale(1.3)
             bg.runAction(moveBGForEver)
             
@@ -103,13 +117,19 @@ class GameScene: SKScene {
         
             // set up timer
             var timer = NSTimer.scheduledTimerWithTimeInterval(3, target: self, selector: Selector("makePipes"), userInfo: nil, repeats: true)
+            
+        
+            
         
     }
     
-            func makePipes() {
+            func makePipes()
+            {
               
                 //Create a gap between 2 pipes ( 4 birds can fit in between the gap )
-                var gap = bird.size.height * 4
+               
+                // create gap height for the bird to go in , and its 4 sizes bigger than the bird
+                let gapHeight = bird.size.height * 4
                 //movement amount
                 var movementAmount = arc4random() % UInt32(self.frame.size.height / 2)
                 // gap offset
@@ -129,8 +149,11 @@ class GameScene: SKScene {
                 //collision detection
                 pipe1.physicsBody = SKPhysicsBody(rectangleOfSize: pipe1.size)
                 pipe1.physicsBody?.dynamic = false
-                pipe1.physicsBody?.categoryBitMask = pipeCategory
-                pipe1.position = CGPoint(x: CGRectGetMidX(self.frame) + self.frame.size.width, y: CGRectGetMidY(self.frame) + pipe1.size.height / 2 + gap / 2 + pipeOffset)
+                
+                pipe1.physicsBody?.categoryBitMask = worldCategory
+                pipe1.physicsBody?.contactTestBitMask = birdCategory
+                
+                pipe1.position = CGPoint(x: CGRectGetMidX(self.frame) + self.frame.size.width, y: CGRectGetMidY(self.frame) + pipe1.size.height / 2 + gapHeight / 2 + pipeOffset)
                 
                 self.addChild(pipe1)
                 
@@ -142,15 +165,41 @@ class GameScene: SKScene {
                 //collision detection
                 pipe2.physicsBody = SKPhysicsBody(rectangleOfSize: pipe1.size)
                 pipe2.physicsBody?.dynamic = false
-                pipe2.physicsBody?.categoryBitMask = pipeCategory
-                pipe2.position = CGPoint(x: CGRectGetMidX(self.frame) + self.frame.size.width, y: CGRectGetMidY(self.frame) - pipe2.size.height / 2 - gap / 2 + pipeOffset)
+                pipe2.physicsBody?.categoryBitMask = worldCategory
+                pipe2.physicsBody?.contactTestBitMask = birdCategory
+                
+                pipe2.position = CGPoint(x: CGRectGetMidX(self.frame) + self.frame.size.width, y: CGRectGetMidY(self.frame) - pipe2.size.height / 2 - gapHeight / 2 + pipeOffset)
                 
                 
                 self.addChild(pipe2)
+                
+                // gap creation
+                var gap = SKNode()
+                gap.position = CGPoint(x: CGRectGetMidX(self.frame) + self.frame.size.width, y: CGRectGetMidY(self.frame) + pipeOffset)
+                
+                gap.physicsBody = SKPhysicsBody(rectangleOfSize: CGSizeMake(pipe1.size.width, gapHeight))
+                gap.runAction(moveAndRemovePipes)
+                gap.physicsBody?.dynamic = false
+                gap.physicsBody?.collisionBitMask =  gapCategory | birdCategory //
+                gap.physicsBody?.categoryBitMask =  gapCategory | birdCategory
+                gap.physicsBody?.contactTestBitMask = birdCategory
+                self.addChild(gap)
     
             }
 
-  
+    func didBeginContact(contact: SKPhysicsContact) {
+        if contact.bodyA.contactTestBitMask == birdCategory || contact.bodyB.contactTestBitMask == gapCategory  {
+            print("Bird Collided with Gap")
+   
+            score++
+            self.scoreLabel.text = "\(score)"
+        
+            } else {
+            print("Has Collided")
+        }
+    }
+    
+    
     
         override func touchesBegan(touches: Set<NSObject>, withEvent event: UIEvent) {
             
@@ -164,7 +213,16 @@ class GameScene: SKScene {
         for touch : AnyObject in touches {
             // we want the bird to go up, location is inside of the scence
          let location = touch.locationInNode(self)
-
+            if self.nodeAtPoint(location) == self.playButton{
+//                print("go to game")
+//                
+//                let scence = PlayScene(size: self.size)
+//                let skView = self.view as SKView?
+//                skView?.ignoresSiblingOrder = true
+//                
+//                skView?.presentScene(scence)
+                
+            }
         
         }
     }
