@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D1868B811B0EA5F400FCEEB1 /* bensound-cute.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D1868B801B0EA5F400FCEEB1 /* bensound-cute.mp3 */; };
+		D1D3AEAC1B0E65A10042070E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1D3AEAB1B0E65A10042070E /* AVFoundation.framework */; };
 		D1D4ADC91B0B8E9C00CF2D46 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D4ADC81B0B8E9C00CF2D46 /* AppDelegate.swift */; };
 		D1D4ADCB1B0B8E9C00CF2D46 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = D1D4ADCA1B0B8E9C00CF2D46 /* GameScene.sks */; };
 		D1D4ADCD1B0B8E9C00CF2D46 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D4ADCC1B0B8E9C00CF2D46 /* GameScene.swift */; };
@@ -28,11 +30,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D1868B801B0EA5F400FCEEB1 /* bensound-cute.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "bensound-cute.mp3"; sourceTree = "<group>"; };
+		D1D3AEAB1B0E65A10042070E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D1D4ADC31B0B8E9C00CF2D46 /* FirstGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FirstGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D1D4ADC71B0B8E9C00CF2D46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D1D4ADC81B0B8E9C00CF2D46 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D1D4ADCA1B0B8E9C00CF2D46 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
-		D1D4ADCC1B0B8E9C00CF2D46 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
+		D1D4ADCC1B0B8E9C00CF2D46 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; tabWidth = 6; };
 		D1D4ADCE1B0B8E9C00CF2D46 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		D1D4ADD11B0B8E9C00CF2D46 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D1D4ADD31B0B8E9C00CF2D46 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -47,6 +51,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1D3AEAC1B0E65A10042070E /* AVFoundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -63,6 +68,7 @@
 		D1D4ADBA1B0B8E9C00CF2D46 = {
 			isa = PBXGroup;
 			children = (
+				D1D3AEAB1B0E65A10042070E /* AVFoundation.framework */,
 				D1D4ADC51B0B8E9C00CF2D46 /* FirstGame */,
 				D1D4ADDF1B0B8E9C00CF2D46 /* FirstGameTests */,
 				D1D4ADC41B0B8E9C00CF2D46 /* Products */,
@@ -81,6 +87,7 @@
 		D1D4ADC51B0B8E9C00CF2D46 /* FirstGame */ = {
 			isa = PBXGroup;
 			children = (
+				D1868B801B0EA5F400FCEEB1 /* bensound-cute.mp3 */,
 				D1D4ADC81B0B8E9C00CF2D46 /* AppDelegate.swift */,
 				D1D4ADCA1B0B8E9C00CF2D46 /* GameScene.sks */,
 				D1D4ADCC1B0B8E9C00CF2D46 /* GameScene.swift */,
@@ -198,6 +205,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D1868B811B0EA5F400FCEEB1 /* bensound-cute.mp3 in Resources */,
 				D1D4ADD71B0B8E9C00CF2D46 /* LaunchScreen.xib in Resources */,
 				D1D4ADD41B0B8E9C00CF2D46 /* Images.xcassets in Resources */,
 				D1D4ADCB1B0B8E9C00CF2D46 /* GameScene.sks in Resources */,
@@ -417,6 +425,7 @@
 				D1D4ADE81B0B8E9C00CF2D46 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		D1D4ADE91B0B8E9C00CF2D46 /* Build configuration list for PBXNativeTarget "FirstGameTests" */ = {
 			isa = XCConfigurationList;
@@ -425,6 +434,7 @@
 				D1D4ADEB1B0B8E9C00CF2D46 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
